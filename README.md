@@ -2,7 +2,7 @@
 
 # Code Refactoring: Model Output Valuation # 
 # Team members: Sameer Ali, Ana Pereda
-#Format: Refactoring a piece of existing code (Option 2)
+# Format: Refactoring a piece of existing code (Option 2)
 # Overall Goal: 
 
 To create an R script that simulates a population, disease incidence, mortality data and vaccine coverage and then automates validation of model valuation 
