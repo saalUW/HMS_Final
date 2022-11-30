@@ -10,14 +10,19 @@ To create an R script that simulates a population, disease incidence, mortality 
 # Detailed Plans and timeline:
 30/11/22
 Submit proposal/ discuss structure
+
 3/12/22
-Simulation
+Data Simulation
+
 8/12/22
-Refactoring
+Code Refactoring
+
 ~ Time permitting ~ 
 CLI / Graph output / Final validation report output
+
 12/12/22
 Present
+
 14/12/22
 Submit
 
