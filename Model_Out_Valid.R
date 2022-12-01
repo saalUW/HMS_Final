@@ -2,15 +2,14 @@
 #rm(list = ls())
 
 # Model Output Validation -------------------------------------------------
-
-
 library("dplyr")
 library("tidyr")
 library("plyr")
 library("data.table")
 
-directory <- (readline(prompt = "Path to parent directory"))
+directory <- readline(prompt = "Path to parent directory ")
 setwd(directory)
+
 
 # The following script was written by Ana Pereda, the goal is to validate 
 #vaccine valuation model output of fully vaccinated population, 
