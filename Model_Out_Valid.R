@@ -9,98 +9,39 @@ library("tidyr")
 library("plyr")
 library("data.table")
 
-setwd<- ("/Users/anitapereda/Documents/START/IPM/Model_Output_Validation")
+directory <- (readline(prompt = "Path to parent directory"))
+setwd(directory)
 
 # The following script was written by Ana Pereda, the goal is to validate 
 #vaccine valuation model output of fully vaccinated population, 
 #protected population, and cases averted for the first 3 years after PQ. 
 
 # Valuation parameters ----------------------------------------------------
-#insert valauation parameters
-
-country <- "AGO"
-years_to_evaluate<- as.character(c(2030:2032))
-age_to_evaluate<- c(0:4)
-initial_age<- 0
-scenario<-"tpp_min"
-market_outcome <- "Trivalent NTS-TCV, SoC"
-effic<- 0.8
-dur_prot <- 5
-
+source("Valuation_Param.R")
+print("Current Test Parameters: ")
+testP
 
 # Import dataframes -------------------------------------------------------
 
+source("Import_Data.R")
 parameters_to_evaluate<- c( "Scenario", "Year","Cases_Averted", 
                             "Protected_Population", "Fully_Vaccinated_People")
 
 ## Import dataframes: mortality rate, pop, coverage, incidence 
 #and filter by set parameters
 
-mu <- read.csv(
-  "/Users/anitapereda/Documents/START/IPM/Model_Output_Validation/mu.csv", 
-  sep=",", header=T, check.names = FALSE)%>%
-  filter(cntry == country & age %in% age_to_evaluate) %>%
-  select(cntry, age, all_of(years_to_evaluate))
-
-country_cov<- list( cntry=rep(country, 3), "age"= c(1:3)) %>%
-  data.frame(country_cov)
-
-coverage<- read.csv(
-  "/Users/anitapereda/Documents/START/IPM/Model_Output_Validation/iNTS/VXcoverage.csv", 
-  sep=",", header=T, check.names = FALSE)%>%
-  filter(cntry == country & del_platform == "routine") %>%
-  select(cntry, all_of(years_to_evaluate)) %>%
-  rbind(coverage, data_cov, fill= T)
-
-
-incidence<- read.csv("/Users/anitapereda/Documents/START/IPM/Model_Output_Validation/iNTS/incidence.csv",
-                     sep=",", header=T, check.names = FALSE)%>%
-  filter(cntry == country & age %in% age_to_evaluate) %>%
-  select(cntry, age, all_of(years_to_evaluate))
-
-pop<- read.csv("/Users/anitapereda/Documents/START/IPM/Model_Output_Validation/mening/population.csv", 
-               sep=",", header=T, check.names = FALSE)#%>%
-  filter(cntry == country & age %in% age_to_evaluate) %>%
-  select(cntry, age, all_of(years_to_evaluate))
-
-
-model_output<- read.csv("/Users/anitapereda/Documents/START/IPM/Model_Output_Validation/iNTS/detailed_view_by_year_of_impact_2022_09_19_14_11_30.csv",
-                        sep=",", header=T, check.names = FALSE)
-
-
 # Input valuation transformations -----------------------------------------
 
-mu_longer<- pivot_longer(
-  mu, 
-  cols = years_to_evaluate,
-  names_to= "Year",
-  values_to= "mu"
-)
-
-coverage_longer<- pivot_longer(
-  coverage, 
-  cols = years_to_evaluate,
-  names_to= "Year",
-  values_to= "coverage"
-)
-
-pop_longer<- pivot_longer(
-  pop, 
-  cols = years_to_evaluate,
-  names_to= "Year",
-  values_to= "population"
-)
-
-incidence_longer<- pivot_longer(
-  incidence, 
-  cols = years_to_evaluate,
-  names_to= "Year",
-  values_to= "incidence"
-)
+source("TransformationL.R")
+mu_longer <- TransL(mu)
+coverage_longer <- TransL(coverage)
+pop_longer <- TransL(pop)
+incidence_longer <- TransL(incidence)
 
 measure_df <- join_all(list(mu_longer, coverage_longer, incidence_longer, pop_longer),
                        by= c('cntry','age','Year'), 
                        type="left")
+
 # convert dataframe to datatable
 measure_dt <- as.data.table(measure_df)
 
@@ -129,15 +70,8 @@ model_output <- dcast(
 
 # Model calculations ------------------------------------------------------
 
-# could rewrite as a fucntion and put it into another script
-
-measure_dt <- measure_dt[, full_vac := population * (coverage/100)]
-measure_dt <- measure_dt[, protected1YO := full_vac * effic]
-measure_dt <- measure_dt[, lag.mu := lag(mu)]
-measure_dt <- measure_dt[, lag.P1YO := lag(protected1YO)]
-measure_dt <- measure_dt[, protected2YO := (1- lag.mu)*lag.P1YO]
-measure_dt <- measure_dt[, lag.P2YO:= lag(protected2YO)]
-measure_dt <- measure_dt[, protected3YO := (1- lag.mu)*lag.P2YO]
+source("Model_Calc.R")
+ Model_Calc(measure_dt)
 
 ## FVP and full protected years-- year summation
 
@@ -188,7 +122,7 @@ measure_dt<- measure_dt[, ':='('cases_averted1YO' =
 #and sum for total population
 
 cases_averted <- measure_dt[age == 1 & Year %in% c(2028:2030), ][,
-  list(Year, cases_averted1YO, cases_averted2YO , cases_averted3YO)]
+                                                                 list(Year, cases_averted1YO, cases_averted2YO , cases_averted3YO)]
 cases_averted<-  melt(
   cases_averted,
   id.vars= "Year",
@@ -198,8 +132,8 @@ cases_averted<-  melt(
 )
 
 cases_averted_pop<- cases_averted[, 
-                   .(cases_averted_per_year= round(sum(values, na.rm= TRUE),0)),
-                                by= Year]
+                                  .(cases_averted_per_year= round(sum(values, na.rm= TRUE),0)),
+                                  by= Year]
 
 cases_averted_per_year <- cases_averted_pop$cases_averted_per_year
 
