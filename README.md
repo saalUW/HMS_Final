@@ -1,13 +1,13 @@
 ## HMS_Final ##
 
 # Code Refactoring: Model Output Valuation # 
-# Team members: Sameer Ali, Ana Pereda
-# Format: Refactoring a piece of existing code (Option 2)
-# Overall Goal: 
+## Team members: Sameer Ali, Ana Pereda
+## Format: Refactoring a piece of existing code (Option 2)
+## Overall Goal: 
 
 To create an R script that simulates a population, disease incidence, mortality data and vaccine coverage and then automates validation of model valuation 
 
-# Detailed Plans and timeline:
+## Detailed Plans and timeline:
 30/11/22
 Submit proposal/ discuss structure
 
@@ -27,12 +27,12 @@ Present
 Submit
 
 
-## How to Run ##
+# How to Run #
 
-# Simulation #
+## Simulation ##
 If running a simulation, run the Simulation.R script which will autopopulate the test_files
 
-# Test Files #
+## Test Files ##
 If including preprocessed data, add the following files:
 * mu.csv = Mortality Rate
 * VXCoverage.csv = Vaccine Coverage
