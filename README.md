@@ -1,6 +1,5 @@
 # HMS_Final: Model Validation #
 
-~~~
 ## General Info:
 * Code Refactoring: Model Output Valuation  
 * Team members: Sameer Ali, Ana Pereda
@@ -29,7 +28,6 @@ Present
 Submit
 
 ~~~
-
 # How to Run #
 
 ## Simulation ##
@@ -46,5 +44,5 @@ If including preprocessed data, add the following files:
 ## Running Validation ##
 
 Run code
-
+~~~
 
