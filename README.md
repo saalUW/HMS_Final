@@ -27,7 +27,6 @@ Present
 14/12/22
 Submit
 
-~~~
 # How to Run #
 
 ## Simulation ##
@@ -44,5 +43,5 @@ If including preprocessed data, add the following files:
 ## Running Validation ##
 
 Run code
-~~~
+
 
