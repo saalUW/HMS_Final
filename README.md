@@ -27,4 +27,21 @@ Present
 Submit
 
 
+## How to Run ##
+
+# Simulation #
+If running a simulation, run the Simulation.R script which will autopopulate the test_files
+
+# Test Files #
+If including preprocessed data, add the following files:
+* mu.csv = Mortality Rate
+* VXCoverage.csv = Vaccine Coverage
+* incidence.csv = Incidence
+* population.csv = Population
+* model_out.csv = Model Output
+
+#Running Validation #
+
+Run code
+
 
