@@ -1,6 +1,6 @@
 # HMS_Final: Model Validation #
 
-##General_Info
+General_Info
 * Code Refactoring: Model Output Valuation  
 * Team members: Sameer Ali, Ana Pereda
 * Format: Refactoring a piece of existing code (Option 2)
