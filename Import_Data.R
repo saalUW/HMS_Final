@@ -38,5 +38,5 @@ filter(cntry == country & age %in% age_to_evaluate) %>%
   select(cntry, age, all_of(years_to_evaluate))
 
 model_output<- read.csv(
-  paste(tF,"detailed_view_by_year_of_impact_2022_09_19_14_11_30.csv"),
+  paste(tF,"model_out.csv"),
                         sep=",", header=T, check.names = FALSE)
