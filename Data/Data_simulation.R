@@ -39,11 +39,13 @@ base_data$coverage <- ifelse(base_data$age == 0, coverage, 0)
 
 # reshape data ------------------------------------------------------------
 
+#Not running for me for some reason .... - Sameer
 incidence <- base_data %>%
   select(c(1:4)) %>%
   pivot_wider(names_from = year,
               values_from = incidence) %>%
   arrange(cntry)
+
 
 population <- base_data %>%
   select(c(1:3),"population") %>%
@@ -63,10 +65,23 @@ coverage <- base_data %>%
               values_from = coverage) %>%
   arrange(cntry)
 
-
 #saving data
+curwd <- getwd()
+curwd <- gsub(" ","",paste(curwd,"/Data/"))
+
+savecsv <- function(x){
+  path <- gsub(" ","", paste(curwd, deparse(substitute(x))))
+  write.csv(x, path)
+}
+
+savecsv(population)
+savecsv(mortality)
+savecsv(coverage)
+
 
 write.csv(incidence, "/Users/anitapereda/Documents/Aut2022/HMS_Final/Data/incidence.csv")
-write.csv(population, "/Users/anitapereda/Documents/Aut2022/HMS_Final/Data/population.csv")
-write.csv(mortality, "/Users/anitapereda/Documents/Aut2022/HMS_Final/Data/mu.csv")
-write.csv(coverage, "/Users/anitapereda/Documents/Aut2022/HMS_Final/Data/coverage.csv")
+
+
+
+
+

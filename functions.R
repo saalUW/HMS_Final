@@ -10,13 +10,13 @@ library(svDialogs)
 {
   country <- toupper(dlgInput("3 letter Country abreviation (ex: AGO) ",
                               "KEN/AGO/ZWE")$res)
-  initial_age <- as.integer(dlgInput("Start age of interest ",
-                              0)$res)
-  final_age<- as.integer(dlgInput("Final age of interest ",
+  # initial_age <- as.integer(dlgInput("Start age of interest ",
+  #                             0)$res)
+  final_age<- as.integer(dlgInput("Ages 0 - ",
                                      4)$res)
-  sYear<- as.integer(dlgInput("Start year of interest ",
-                                  2023)$res)
-  eYear<- as.integer(dlgInput("End year of interest ",
+  # sYear<- as.integer(dlgInput("Start year of interest ",
+  #                                 2023)$res)
+  eYear<- as.integer(dlgInput("From 2023 -  ",
                               2027)$res)
   effic<- as.double(dlgInput("Efficacy of coverage (ex: 0.8) ",
                               0.8)$res)
@@ -27,8 +27,8 @@ library(svDialogs)
 #as.list(strsplit(x, ",")
 
 
-years_to_evaluate<- as.character(c(sYear:eYear))
-age_to_evaluate<- c(as.numeric(initial_age):as.numeric(final_age))
+years_to_evaluate<- as.character(c(2023:eYear))
+age_to_evaluate<- c(0:as.numeric(final_age))
 
 param <- list(country, years_to_evaluate, age_to_evaluate, effic)
 
@@ -124,4 +124,18 @@ measure_dt <- as.data.table(measure_df)
 rm(coverage,coverage_longer,incidence,incidence_longer,measure_df,mu,mu_longer,
    param, paramN, pop, pop_longer)
 
+
+#### Calculations ####
+
+prepData <- function(x,y){
+  x <- x[, `fully vaccinated people` := population * (coverage/100)]
+  x <- x[, protected1YO := `fully vaccinated people` * effic]
+  x <- x[, lag.mu := lag(mu)]
+  x <- x[, lag.P1YO := lag(protected1YO)]
+  x <- x[, protected2YO := (1- lag.mu)*lag.P1YO]
+  x <- x[, lag.P2YO:= lag(protected2YO)]
+  x <- x[, protected3YO := (1- lag.mu)*lag.P2YO]
+  x <- x[, lag.P3YO:= lag(protected3YO)]
+  x <- x[, protected4YO := (1- lag.mu)*lag.P3YO]
+}
 
