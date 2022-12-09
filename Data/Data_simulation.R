@@ -41,7 +41,7 @@ base_data$coverage <- ifelse(base_data$age == 0, coverage, 0)
 
 #Not running for me for some reason .... - Sameer
 incidence <- base_data %>%
-  select(c(1:4)) %>%
+  select(c(1:3, "incidence")) %>%
   pivot_wider(names_from = year,
               values_from = incidence) %>%
   arrange(cntry)
