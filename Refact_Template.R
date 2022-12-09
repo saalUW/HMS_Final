@@ -1,6 +1,4 @@
 
-#rm(list = ls())
-
 # Model Output Validation -------------------------------------------------
 library("dplyr")
 library("tidyr")

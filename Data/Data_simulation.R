@@ -68,5 +68,5 @@ coverage <- base_data %>%
 
 write.csv(incidence, "/Users/anitapereda/Documents/Aut2022/HMS_Final/Data/incidence.csv")
 write.csv(population, "/Users/anitapereda/Documents/Aut2022/HMS_Final/Data/population.csv")
-write.csv(mortality, "/Users/anitapereda/Documents/Aut2022/HMS_Final/Data/mortality.csv")
+write.csv(mortality, "/Users/anitapereda/Documents/Aut2022/HMS_Final/Data/mu.csv")
 write.csv(coverage, "/Users/anitapereda/Documents/Aut2022/HMS_Final/Data/coverage.csv")
