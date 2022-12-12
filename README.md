@@ -35,13 +35,19 @@ If running a simulation, run the Simulation.R script which will autopopulate the
 ## Test Files ##
 If including preprocessed data, add the following files:
 * mu.csv = Mortality Rate
-* VXCoverage.csv = Vaccine Coverage
+* coverage.csv = Vaccine Coverage
 * incidence.csv = Incidence
 * population.csv = Population
 * model_out.csv = Model Output
 
-## Running Validation ##
+## Running With Simulation ##
 
-Run code
+Within the "Data" file there is a simulation.R script that will create the necessary .csv for data validation.  
+
+## Running refact_script_validation ##
+
+With the simulation data prepared and correctly named, the validation can be executed by running the refact_script_validation.R script.
+This script will create a gui for inputting the model parameters, and calls functions.R for data reshapping. refact_script_validation.R will
+output a dataframe of the comparison between the expected and calculated models. This dataframe can be used for making plots, or can be otherwise outputted (not implemented).
 
 
